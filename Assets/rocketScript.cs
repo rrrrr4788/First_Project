@@ -15,6 +15,7 @@ public class rocketScript : MonoBehaviour
     [SerializeField] ParticleSystem Win = default;
     [SerializeField] ParticleSystem Run = default;
     [SerializeField] ParticleSystem Lose = default;
+    [SerializeField] float LevelLoadDelay = 3f;
     // Start is called before the first frame update
 
     enum State { Alive, Dead, Transcending };
@@ -94,39 +95,39 @@ public class rocketScript : MonoBehaviour
 
     private void GoDie()
     {
-        if (state != State.Dead)
+        if (state == State.Alive)
         {
             audioSource.Stop();
+            Run.Stop();
             audioSource.PlayOneShot(DeathSound);
             Lose.Play();
             state = State.Dead;
         }
-        Invoke("Death", 3f);
+        Invoke("Death", LevelLoadDelay);
     }
 
     private void GoToNextLevel()
     {
-        if (state != State.Transcending)
+        if (state == State.Alive)
         {
-            audioSource.Stop();
-            Debug.Log("s");
+            //audioSource.Stop();
             audioSource.PlayOneShot(Success);
             Win.Play();
             //audioSource.Play();
             state = State.Transcending;
         }
-        Invoke("Load", 3f);
+        Invoke("Load", LevelLoadDelay);
     }
 
     private void Death()
     {
-        
+        state = State.Alive;
         SceneManager.LoadScene(0);
     }
 
     private void Load()
     {
-        
+        state = State.Alive;
         SceneManager.LoadScene(1);
     }
 }

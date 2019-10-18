@@ -19,6 +19,10 @@ public class Oscillator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(periods == 0f)
+        {
+            periods = 10000000000;
+        }
         float cycles = Time.time / periods;
         const float tau = 2f * Mathf.PI;
         float rawSine = Mathf.Sin(cycles * tau);
