@@ -44,7 +44,8 @@ public class rocketScript : MonoBehaviour
         {
             rigidBody.AddRelativeForce(Vector3.up * frameThrust);
             Run.Play(); 
-            audioSource.PlayOneShot(mainEngine);
+            if(!audioSource.isPlaying)
+                audioSource.PlayOneShot(mainEngine);
         }
         else
         {
@@ -74,8 +75,8 @@ public class rocketScript : MonoBehaviour
         {
             case "Friendly":
                 {
-                    Debug.Log(collision.gameObject.tag);
-                    audioSource.PlayOneShot(Success);
+                    //Debug.Log(collision.gameObject.tag);
+                    //audioSource.PlayOneShot(Success);
                     break;
                 }
             case "Finish":
