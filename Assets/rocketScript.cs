@@ -19,8 +19,9 @@ public class rocketScript : MonoBehaviour
     // Start is called before the first frame update
 
     enum State { Alive, Dead, Transcending };
-
     State state = State.Alive;
+    bool CollisionEnabled = true;
+
     void Start()
     {
         print("hf");
@@ -36,6 +37,25 @@ public class rocketScript : MonoBehaviour
             Thrust();
             Rotate();
         }
+
+        if (Debug.isDebugBuild)
+        {
+            SpecialDebuggingDetection();
+        }
+    }
+
+    private void SpecialDebuggingDetection()
+    {
+        if (Input.GetKey(KeyCode.L))
+        {
+            Load();
+        }
+        else if (Input.GetKey(KeyCode.C))
+        {
+            CollisionEnabled = !CollisionEnabled;
+            print(CollisionEnabled);
+        }
+        
     }
 
     private void Thrust()
@@ -72,6 +92,7 @@ public class rocketScript : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        if(state != State.Alive || !CollisionEnabled) { return; }
         switch (collision.gameObject.tag)
         {
             case "Friendly":
